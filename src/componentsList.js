@@ -19,6 +19,7 @@ const componentList = {
     "cc-block-list":`url:${baseLibPath}/components/cc-block-list.vue`,
     "cc-dragable-block-card":`url:${baseLibPath}/components/cc-dragable-block-card.vue`,
     "cc-image-card":`url:${baseLibPath}/components/cc-image-card.vue`,
+    "cc-vditor-vue":`url:${baseLibPath}/components/cc-vditor-vue.vue`,
 
 
     

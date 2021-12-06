@@ -8,13 +8,13 @@
     @dragstop="dragstop"
     @resizing="resizing"
     @resizestop="resizestop"
-    :resizable="!folded"
+    :resizable="!carddata.folded"
     :min-width="100"
     :min-height="25"
-    :y="top"
-    :w="width"
-    :h="height"
-    :x="left"
+    :y="carddata.top"
+    :w="carddata.width"
+    :h="carddata.height"
+    :x="carddata.left"
 
     :z="200"
     class-name-handle="my-handle-class"
@@ -27,15 +27,15 @@
       :open-delay="300"
       placement="right"
       :width="100"
-      v-if="folded"
+      v-if="carddata.folded"
     >
       <div
         class="lableFolded"
         slot="reference"
         :style="`position: absolute;                
-        background-color:${backgroundColor};
-        color:${color};
-        border:solid ${borderColor} 2px;
+        background-color:${carddata.backgroundColor};
+        color:${carddata.color};
+        border:solid ${carddata.borderColor} 2px;
         width:15px;
         height:15px;
         min-width:15px;
@@ -46,28 +46,28 @@
         text-align:center;
         padding-bottom:3px
         `"
-        @dblclick="folded = !folded"
-      >{{ index }}</div>
+        @dblclick="carddata.folded = !carddata.folded"
+      >{{index }}</div>
       <div
         :style="`
         overflow:hidden;
-        border:solid ${borderColor} 1px;
-        background-color:${backgroundColor};
+        border:solid ${carddata.borderColor} 1px;
+        background-color:${carddata.backgroundColor};
         border-radius:5px`"
       >
-        <cc-link-siyuan :style="`color:${color};`" :锚文本="anchor" :链接id="def_block"></cc-link-siyuan>
+        <cc-link-siyuan :style="`color:${carddata.color};`" :锚文本="carddata.anchor" :链接id="carddata.def_block"></cc-link-siyuan>
 
-        <div :style="`font-size:xx-small;color:${color}`">双击标记展开,拖拽移动</div>
+        <div :style="`font-size:xx-small;color:${carddata.color}`">双击标记展开,拖拽移动</div>
       </div>
     </el-popover>
-    <div v-if="!folded"  @dblclick="folded = !folded">
+    <div v-if="!carddata.folded"  @dblclick="carddata.folded = !carddata.folded">
       <div
         :style="`position:absolute;
                         overflow:hidden;
-                        border:solid ${borderColor} ${边框宽度}px;
-                        background-color:${backgroundColor};
-                        width:${width-5 + 'px'};
-                        height:${height-5 + 'px'};
+                        border:solid ${carddata.borderColor} ${边框宽度}px;
+                        background-color:${carddata.backgroundColor};
+                        width:${carddata.width-5 + 'px'};
+                        height:${carddata.height-5 + 'px'};
                         border-radius:5px`
         "
       >
@@ -75,13 +75,16 @@
         <span style="float:right">{{index}}</span>
 
         
-        <span class="el-icon-siyuan" v-if="def_block"></span>
+        <span class="el-icon-siyuan" v-if="carddata.def_block"></span>
 
         <span class="el-icon-delete"  v-on:click="删除()"></span>
         <span class="el-icon-share" @click="开始连接()"></span>
+        <span class="el-icon-edit" v-if="!文字可编辑" @click="文字可编辑=true"></span>
+        <span class="el-icon-check" v-if="文字可编辑" @click="文字可编辑=false"></span>
 
-        <div :style="`color:${color};`">
-          <cc-link-siyuan :style="`color:${color};`" :锚文本="anchor" :链接id="def_block"></cc-link-siyuan>
+        <div :style="`color:${carddata.color};`">
+          <cc-link-siyuan v-if="carddata.anchor" :style="`color:${carddata.color};`" :锚文本="carddata.anchor" :链接id="carddata.def_block"></cc-link-siyuan>
+          <cc-vditor-vue v-model="carddata.markdown"></cc-vditor-vue>
         </div>
       </div>
     </div>
@@ -97,40 +100,20 @@ module.exports = {
   model: { prop: "value", event: "change" },
   data() {
     return {
-      def_block: "",
-      anchor: "锚文本为空时显示来源块内容",
-      top: 100,
-      left: 100,
-      width: 100,
-      height: 100,
-      color: "black",
-      backgroundColor: "yellow",
-      borderColor: "red",
-      showhandler: false,
-      folded: true,
-      id:"",
+      carddata:"",
+
       激活: false,
       正在编辑: false,
       开始监听: false,
       边框宽度:1,
-      
+      文字可编辑:false,
     }
   },
   mounted() {
     let block = this.value
     console.log("block", block)
-    this.def_block = block.def_block,
-    this.anchor = block.anchor,
-    this.top = block.top
-    this.left = block.left
-    this.width = block.width
-    this.height = block.height
-    this.color = block.color
-    this.backgroundColor = block.backgroundColor
-    this.borderColor = block.borderColor
-    this.showhandler = block.showhandler
-    this.folded = block.folded
-    this.id = block.id
+    this.carddata = JSON.parse(JSON.stringify(block)),
+   
 
     this.开始监听 = true
   },
@@ -153,26 +136,12 @@ module.exports = {
     value(val) {
       if (val){
       let block = this.value
-      this.def_block = block.def_block,
-      this.anchor = block.anchor,
-      this.top = block.top
-      this.left = block.left
-      this.width = block.width
-      this.height = block.height
-      this.color = block.color
-      this.backgroundColor = block.backgroundColor
-      this.borderColor = block.borderColor
-      this.showhandler = block.showhandler
-      this.folded = block.folded
-      this.id = block.id
+      this.carddata = JSON.parse(JSON.stringify(block))
+      
       }
-
+    
     },
-    block(val) {
-      for (prop in val) {
-        this[prop] = block[prop]
-      }
-    },
+   
     激活(val) {
       if (val) {
         this.边框宽度=3
@@ -191,28 +160,10 @@ module.exports = {
         this.$emit("editing", "")
       }
     },
-    
+   
   },
   computed: {
-    tagdefine() {
-      if (!this.开始监听||!this.value) { return undefined }
-
-      let obj = {}
-      obj.def_block = this.def_block,
-      obj.anchor = this.anchor,
-      obj.top = this.top
-      obj.left = this.left
-      obj.width = this.width
-      obj.height = this.height
-      obj.color = this.color
-      obj.backgroundColor = this.backgroundColor
-      obj.borderColor = this.borderColor
-      obj.showhandler = this.showhandler
-      obj.folded = this.folded
-      obj.id = this.id
-      return obj
     
-    }
   },
   methods: {
     开始连接(){
@@ -228,33 +179,33 @@ module.exports = {
       this.$emit("dblclick")
     },
     展开链接: function () {
-      this.$emit("callbacklink", this.def_block)
+      this.$emit("callbacklink", this.carddata.def_block)
     },
     dragging: function (x, y) {
-      this.top = y
-      this.left = x
-      console.log(this.tagdefine)
+      this.carddata.top = y
+      this.carddata.left = x
       
-      if (this.tagdefine){
-      this.$emit("change", this.tagdefine)}
+      if (this.carddata){
+      this.$emit("change", this.carddata)}
     },
-    dragstop() {       if (this.tagdefine){
-      this.$emit("change", this.tagdefine)}
+    dragstop() {       if (this.carddata){
+      this.$emit("change", this.carddata)}
 },
     resizing: function (x, y, width, height) {
-      this.top = y
-      this.left = x
-      this.width = width
-      this.height = height
+      this.carddata.top = y
+      this.carddata.left = x
+      this.carddata.width = width
+      this.carddata.height = height
       if (this.tagdefine){
-      this.$emit("change", this.tagdefine)}
+      this.$emit("change", this.carddata)}
 
     },
     resizestop: function (x, y, width, height) {
-      this.top = y
-      this.left = x
-      this.width = width
-      this.height = height
+      this.carddata.top = y
+      this.carddata.left = x
+      this.carddata.width = width
+      this.carddata.height = height
+      this.$emit("change", this.carddata)
     },
   },
 }
