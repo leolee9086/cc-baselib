@@ -10,17 +10,17 @@
             <div>主题背景颜色</div>
             <el-row :gutter="20" >
                 <el-col :span="1" v-for="num in 颜色编号数组" :key="num">
-                    <div class="colortemp" @click="最终颜色值=`var(--b3-font-color${num})`" :style="'height:15px;width:15px;border:solid 1px black;background-color:var(--b3-font-background'+num+')'"></div>
+                    <div class="colortemp" @click="最终颜色值=`var(--b3-font-background${num})`" :style="'height:15px;width:15px;border:solid 1px black;background-color:var(--b3-font-background'+num+')'"></div>
                 </el-col>
             </el-row>
             <el-divider></el-divider>
-            <div>web命名颜色</div>
-            <el-row :gutter="20" >
+            <div v-if="显示web命名颜色">web命名颜色</div>
+            <el-row v-if="显示web命名颜色" :gutter="20" >
                 <el-col :span="1" v-for="item in web命名颜色" :key="item.颜色名">
                     <div class="colortemp" @click="最终颜色值=item['十六进制颜色值']" :style="`height:15px;width:15px;border:solid 1px black;background-color:${item['十六进制颜色值']};`"></div>
                 </el-col>
             </el-row>
-            <el-divider></el-divider>
+            <el-divider v-if="显示web命名颜色"></el-divider>
             
             <div>自定义颜色</div> 
             
@@ -42,7 +42,7 @@
 <script>
     module.exports ={
         name:"cc-color-pane",
-        props:["思源伺服ip","apitoken","自定义颜色数组","value"],
+        props:["思源伺服ip","apitoken","自定义颜色数组","value","显示web命名颜色"],
         model:{event:"change",prop:"value"},
         mounted(){
         },

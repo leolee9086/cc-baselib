@@ -1,6 +1,6 @@
 const baseLibPath = "/widgets/cc-baselib"
 
-const componentList = {
+const componentsList = {
     "cc-csscons-font":`url:${baseLibPath}/components/cc-csscons-font.vue`,
     "cc-color-pane":`url:${baseLibPath}/components/cc-color-pane.vue`,
     "cc-knob":`url:${baseLibPath}/components/cc-knob.vue`,
@@ -17,12 +17,8 @@ const componentList = {
     "cc-block-kanban":`url:${baseLibPath}/components/cc-block-kanban.vue`,
     "cc-link-siyuan":`url:${baseLibPath}/components/cc-link-siyuan.vue`,
     "cc-block-list":`url:${baseLibPath}/components/cc-block-list.vue`,
-    "cc-dragable-block-card":`url:${baseLibPath}/components/cc-dragable-block-card.vue`,
     "cc-image-card":`url:${baseLibPath}/components/cc-image-card.vue`,
-    "cc-vditor-vue":`url:${baseLibPath}/components/cc-vditor-vue.vue`,
-
-
-    
+    "cc-vditor-vue":`url:${baseLibPath}/components/cc-vditor-vue.vue`,    
 }
 Vue.use(httpVueLoader);
 

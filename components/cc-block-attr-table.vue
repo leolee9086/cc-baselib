@@ -333,7 +333,7 @@
 
     module.exports={
         name:"custom-block-attr-table",
-        components:componentList,
+        components:componentsList,
         props:["集合规则块","显示源属性名","当前文档信息","sql","显示基础属性","思源伺服ip","apitoken","主界面","显示自定义属性","显示原始自定义属性","属性类型","新属性","书签列表"],
         model:{
             event:"hide",

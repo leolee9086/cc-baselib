@@ -255,7 +255,7 @@
     module.exports ={
         name:"cc-csscons-font",
         props:["思源伺服ip","apitoken","样式对象","自定义颜色数组"],
-        components:componentList,
+        components:componentsList,
         model:{event:"change",prop:"样式对象"},
         mounted(){
             this.获取系统字体列表()

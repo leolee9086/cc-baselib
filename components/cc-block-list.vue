@@ -32,7 +32,7 @@
 <script>
     module.exports={
         props:["blocklist","title","count"],
-        components:componentList,
+        components:componentsList,
         data() {
             return {
                 展开:true,

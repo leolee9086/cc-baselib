@@ -168,7 +168,7 @@
 <script>
 module.exports={
     name:"cc-border-setter",
-    components:componentList,
+    components:componentsList,
     props:["思源伺服ip","apitoken","样式对象","自定义颜色数组"],
     model:{event:"change",prop:"样式对象"},
     mounted(){

@@ -133,7 +133,7 @@
 
     module.exports={
         name:"cc-block-attr-form",
-        components:componentList,
+        components:componentsList,
         props:[ 
                 "内容块id",
                 "书签列表",

@@ -152,7 +152,7 @@
             event:"hide",
             prop:"value"
         },
-        components:componentList,
+        components:componentsList,
         mounted: function (){
             let that = this
            that.初始化()

@@ -57,7 +57,7 @@
     module.exports={
         name:"custom-attr-constructor",
         props:["新属性","属性类型","已有属性列表",'思源伺服ip','apitoken'],
-           components:componentList,
+           components:componentsList,
         model:{
             event:"hide",
             prop:"新属性"

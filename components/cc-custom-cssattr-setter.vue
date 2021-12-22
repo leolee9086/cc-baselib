@@ -108,7 +108,7 @@
 <script>
 module.exports = {
     name:"cc-custom-cssattr-setter",
-     components:componentList,
+     components:componentsList,
     props:['value',"系统字体列表","cssunits","apitoken"],
     model:{
         props:"value",

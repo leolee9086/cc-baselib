@@ -14,9 +14,9 @@
         data(){
             return{
                 链接锚文本:"等待获取",
-                思源伺服ip:this.$root.思源伺服ip,
-                apitoken:this.$root.apitoken,
-                思源主界面:this.$root.主界面,
+                思源伺服ip:this.$思源伺服ip,
+                apitoken:this.$apitoken,
+                思源主界面:this.$主界面,
                 开始移动浮窗:false,
                 X:"",
                 Y:"",

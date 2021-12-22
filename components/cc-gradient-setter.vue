@@ -89,7 +89,7 @@
 
 module.exports= {
     name:"cc-gradient-setter",
-    components:componentList,
+    components:componentsList,
     props:["value","宽度","自定义颜色数组"],
     model:{event:"change",prop:"value"},
     mounted(){

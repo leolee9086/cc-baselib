@@ -30,7 +30,6 @@ Vue.prototype.$解析块属性 =async function (属性名,原始属性值){
            转义属性值 = Vue.prototype.$html转义(原始属性值)
            that.当前块属性[item] = 原始属性值
            let 解析属性值 = null
-
            try {
                解析属性值 = JSON.parse(原始属性值)
                if (解析属性值.label==""||!解析属性值.label){解析属性值.label=item.slice(7,0)}
@@ -132,9 +131,10 @@ Vue.prototype.$窗口内打开思源块=function (id){
 }
 
 Vue.prototype.$窗口内打开超链接=function (链接){
-    let 主界面= this.$root.主界面
+    let 主界面= {}
     if (this.$挂件模式()){
-    
+    console.log(链接)
+    主界面=window.parent.document
     let 虚拟链接 =  主界面.createElement("span")
     虚拟链接.setAttribute("data-type","a")
     虚拟链接.setAttribute("data-href",链接)
@@ -205,3 +205,15 @@ Vue.prototype.$获取书签列表=async function(){
         )
         that.主界面= window.parent.document
 }
+
+Vue.prototype.$以id获取块内容=async function (id) {
+    let 数据源id = this.挂件自身元素.getAttribute("data-node-id");
+    let 临时属性数组 = await this.$以id数组通过sql形式获取思源块信息数组([
+      数据源id,
+    ]);
+    let 挂件自身属性 = 临时属性数组[0];
+    let 当前文档id = 挂件自身属性["root_id"];
+    let 外部id数组 = [数据源id, 当前文档id];
+    let 块内容 = await this.$以id获取块内容(外部id数组, id);
+    console.log(块内容["blocks"][0]);
+  }

@@ -31,7 +31,7 @@
 </template>
 <script>
 module.exports = {
-   components:componentList,
+   components:componentsList,
     props:["filetypes",'思源伺服ip','value','apitoken'],
     model:{
         props:"value",
