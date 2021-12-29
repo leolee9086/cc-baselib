@@ -179,6 +179,7 @@ Vue.prototype.$解析url=function(url){
         const queryObj = {};
         const reg = /[?&]([^=&#]+)=([^&#]*)/g;
         const queryArr = url.match(reg) || [];
+        console.log(queryArr)
         for (const i in queryArr) {
             if (Object.hasOwnProperty.call(queryArr, i)) {
                 const query = queryArr[i].split('=');
@@ -187,6 +188,7 @@ Vue.prototype.$解析url=function(url){
                 queryObj[key] ? queryObj[key] = [].concat(queryObj[key], value) : queryObj[key] = value;
             }
         }
+        console.log(queryObj)
         return queryObj;
     
 }
