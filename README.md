@@ -11,3 +11,17 @@ components
 - 这里是所有的vue组件所在
 
 config
+
+- 目前空置
+
+icon
+
+- 挂件中用到的图标位置
+
+static 
+
+- 第三方库文件,因为不喜欢打包所以没有node_modules
+
+src 
+
+- 一些工具代码,思源api对接之类的
