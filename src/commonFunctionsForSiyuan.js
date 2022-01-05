@@ -17,6 +17,7 @@ Vue.prototype.$html转义 = function(原始字符串){
 Vue.prototype.$获取事件目标块id=function(event){
     let that = this
     let 当前块id = ""
+    console.log(event.target)
     let targetel = event.target.parentElement
     if (!targetel.getAttribute("data-node-id")){targetel= targetel.parentElement}
     
@@ -106,7 +107,7 @@ Vue.prototype.$以id获取块内容=async function(外部块数组,id){
 }
 
 Vue.prototype.$窗口内打开思源块=function (id){
-    let 主界面= this.$root.主界面
+    let 主界面= this.$root?this.$root.主界面||window.parent.document:window.parent.document
     if (this.$挂件模式()){
     let 虚拟链接 =  主界面.createElement("span")
     虚拟链接.setAttribute("data-type","block-ref")
@@ -219,3 +220,5 @@ Vue.prototype.$以id获取块内容=async function (id) {
     let 块内容 = await this.$以id获取块内容(外部id数组, id);
     console.log(块内容["blocks"][0]);
   }
+
+  Vue.prototype.$主界面=window.parent.document

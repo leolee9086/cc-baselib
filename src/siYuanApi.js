@@ -236,3 +236,22 @@ async function 获取全局图谱(思源伺服ip,apitoken,k,conf,reqId){
     let url = 'http://'+思源伺服ip+'/api/graph/getGraph'
     return 向思源请求数据(url,apitoken,data)
 }
+
+async function 以关键词搜索文档(思源伺服ip,apitoken,k){
+    let data ={
+        "k":k,
+    }
+    let url = 'http://'+思源伺服ip+'/api/filetree/searchDocs'
+    return 向思源请求数据(url,apitoken,data)
+}
+
+async function 通过markdown创建文档(思源伺服ip,apitoken,notebook,path,markdown){
+    let data ={
+        "notebook":notebook,
+        "path":path,
+        "markdown": markdown,
+    }
+    let url = 'http://'+思源伺服ip+'/api/filetree/createDocWithMd'
+    return 向思源请求数据(url,apitoken,data)
+}
+
