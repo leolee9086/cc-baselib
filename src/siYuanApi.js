@@ -244,6 +244,14 @@ async function 以关键词搜索文档(思源伺服ip,apitoken,k){
     let url = 'http://'+思源伺服ip+'/api/filetree/searchDocs'
     return 向思源请求数据(url,apitoken,data)
 }
+async function 以关键词搜索模板(思源伺服ip,apitoken,k){
+    let data ={
+        "k":k,
+    }
+    let url = 'http://'+思源伺服ip+'/api/search/searchTemplate'
+    return 向思源请求数据(url,apitoken,data)
+}
+
 
 async function 通过markdown创建文档(思源伺服ip,apitoken,notebook,path,markdown){
     let data ={
@@ -252,6 +260,15 @@ async function 通过markdown创建文档(思源伺服ip,apitoken,notebook,path,
         "markdown": markdown,
     }
     let url = 'http://'+思源伺服ip+'/api/filetree/createDocWithMd'
+    return 向思源请求数据(url,apitoken,data)
+}
+
+async function 插入块(思源伺服ip,apitoken,data){
+    let url = 'http://'+思源伺服ip+'/api/block/insertBlock'
+    return 向思源请求数据(url,apitoken,data)
+}
+async function 渲染模板(思源伺服ip,apitoken,data){
+    let url = 'http://'+思源伺服ip+'/api/template/render'
     return 向思源请求数据(url,apitoken,data)
 }
 
