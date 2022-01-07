@@ -251,7 +251,13 @@ async function 以关键词搜索模板(思源伺服ip,apitoken,k){
     let url = 'http://'+思源伺服ip+'/api/search/searchTemplate'
     return 向思源请求数据(url,apitoken,data)
 }
-
+async function 删除块(思源伺服ip,apitoken,块id){
+    let data ={
+        "id":块id,
+    }
+    let url = 'http://'+思源伺服ip+'/api/block/deleteBlock'
+    return 向思源请求数据(url,apitoken,data)
+}
 
 async function 通过markdown创建文档(思源伺服ip,apitoken,notebook,path,markdown){
     let data ={

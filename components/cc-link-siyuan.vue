@@ -3,7 +3,6 @@
     data-ref="链接id"
     v-on:mouseover="打开浮窗($event)"
     v-on:mouseout="鼠标在链接内 = false"
-    v-on:mousemove="移动浮窗($event)"
   >
     <span class="link" @click="窗口内打开(链接id)">{{ 锚文本 || 链接锚文本 }}</span>
   </span>
@@ -13,6 +12,7 @@ module.exports = {
   mounted: function () {
     let that = this;
     that.解析思源块链接(that.链接id);
+    setInterval(that.移动浮窗, 5);
   },
   props: ["链接id", "锚文本"],
   data() {
@@ -33,7 +33,7 @@ module.exports = {
     },
   },
   methods: {
-    移动浮窗: function ($event) {
+    移动浮窗: function () {
       let that = this;
       if (that.开始移动浮窗) {
         let id = that.链接id;
@@ -41,16 +41,11 @@ module.exports = {
           id = id.replace("((", "").replace("))", "");
           let panel = that.思源主界面.querySelector(`.block__popover[data-oid="${id}"]`);
           if (panel) {
-            that.开始移动浮窗 = false;
-            let 挂件自身元素 =
-              that.$root.挂件自身元素 || window.frameElement || window.document.body;
-            let 挂件坐标 = 挂件自身元素
-              ? that.获取元素视图坐标(挂件自身元素)
-              : that.获取元素视图坐标(window.frameElement);
-            that["X"] = $event.clientX + 挂件坐标.X;
-            that["Y"] = $event.clientY + 挂件坐标.Y;
+            panel.style.display = "none";
             panel.style.top = that.Y + "px";
             panel.style.left = that.X - (panel.offsetWidth / 2 || 0) + "px";
+            panel.style.display = "block";
+            that.开始移动浮窗 = false;
           }
         }
       }
@@ -94,45 +89,49 @@ module.exports = {
       if (!this.$挂件模式()) {
         return null;
       }
-      setTimeout(function () {
-        if (that.鼠标在链接内) {
-          let id = that.链接id;
-          id = id.replace("((", "").replace("))", "");
-          let 虚拟链接 = that.思源主界面.createElement("span");
-          虚拟链接.setAttribute("data-type", "block-ref");
-          虚拟链接.setAttribute("data-id", id);
-          let 临时目标 = that.思源主界面.querySelector(
-            ".protyle-wysiwyg div[data-node-id] div[contenteditable]"
-          );
-          // console.log(临时目标)
-          临时目标.appendChild(虚拟链接);
-          虚拟链接.style.position = "fixed";
-          let 挂件坐标 = that.获取元素绝对坐标(that.$root.挂件自身元素);
-          虚拟链接.style.top = $event.clientY + 挂件坐标.Y;
-          虚拟链接.style.left = $event.clientX + 挂件坐标.X;
-          let 点击事件 = that.思源主界面.createEvent("MouseEvents");
-          点击事件.initMouseEvent(
-            "mouseover",
-            true,
-            false,
-            window.parent,
-            1,
-            100,
-            100,
-            100,
-            100,
-            false,
-            false,
-            false,
-            false,
-            0,
-            null
-          );
-          虚拟链接.dispatchEvent(点击事件);
-          虚拟链接.remove();
-        }
-        setTimeout(that.移动浮窗($event), 300);
-      }, 300);
+      let 挂件自身元素 =
+        that.$root.挂件自身元素 || window.frameElement || window.document.body;
+      let 挂件坐标 = 挂件自身元素
+        ? that.获取元素视图坐标(挂件自身元素)
+        : that.获取元素视图坐标(window.frameElement);
+      that["X"] = $event.clientX + 挂件坐标.X;
+      that["Y"] = $event.clientY + 挂件坐标.Y;
+      if (that.鼠标在链接内) {
+        let id = that.链接id;
+        id = id.replace("((", "").replace("))", "");
+        let 虚拟链接 = that.思源主界面.createElement("span");
+        虚拟链接.setAttribute("data-type", "block-ref");
+        虚拟链接.setAttribute("data-id", id);
+        let 临时目标 = that.思源主界面.querySelector(
+          ".protyle-wysiwyg div[data-node-id] div[contenteditable]"
+        );
+        // console.log(临时目标)
+        临时目标.appendChild(虚拟链接);
+        虚拟链接.style.position = "fixed";
+        let 挂件坐标 = that.获取元素绝对坐标(that.$root.挂件自身元素);
+        虚拟链接.style.top = $event.clientY + 挂件坐标.Y;
+        虚拟链接.style.left = $event.clientX + 挂件坐标.X;
+        let 点击事件 = that.思源主界面.createEvent("MouseEvents");
+        点击事件.initMouseEvent(
+          "mouseover",
+          true,
+          false,
+          window.parent,
+          1,
+          100,
+          100,
+          100,
+          100,
+          false,
+          false,
+          false,
+          false,
+          0,
+          null
+        );
+        虚拟链接.dispatchEvent(点击事件);
+        虚拟链接.remove();
+      }
     },
     窗口内打开: function (id) {
       let that = this;
