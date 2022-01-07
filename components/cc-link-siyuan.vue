@@ -41,8 +41,7 @@ module.exports = {
           id = id.replace("((", "").replace("))", "");
           let panel = that.思源主界面.querySelector(`.block__popover[data-oid="${id}"]`);
           if (panel) {
-            panel.style.display = "none";
-            panel.style.top = that.Y + "px";
+            panel.style.top = that.Y + 16 + "px";
             panel.style.left = that.X - (panel.offsetWidth / 2 || 0) + "px";
             panel.style.display = "block";
             that.开始移动浮窗 = false;
@@ -129,8 +128,10 @@ module.exports = {
           0,
           null
         );
-        虚拟链接.dispatchEvent(点击事件);
-        虚拟链接.remove();
+        setTimeout(() => {
+          虚拟链接.dispatchEvent(点击事件);
+          虚拟链接.remove();
+        }, 300);
       }
     },
     窗口内打开: function (id) {
