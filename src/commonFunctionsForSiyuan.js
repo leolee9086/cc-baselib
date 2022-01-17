@@ -48,11 +48,20 @@ Vue.prototype.$解析块属性 =async function (属性名,原始属性值){
 Vue.prototype.$获取思源主界面主题=function(主界面){
     主题元素 = 主界面.querySelector('#themeDefaultStyle')
     let 复制主题元素 =  window.document.querySelector('#themeDefaultStyle')
-    console.log(复制主题元素)
+    
+    if(!复制主题元素){
+        let 临时主题元素  = document.createElement("link")
+        临时主题元素.setAttribute("id","themeDefaultStyle")
+        let head =  document.querySelector("head")
+        head.appendChild(临时主题元素)
+        复制主题元素= 临时主题元素
+    }
     复制主题元素.setAttribute('rel',主题元素.getAttribute('rel'))
     复制主题元素.setAttribute('type',主题元素.getAttribute('type'))
     复制主题元素.setAttribute('href',主题元素.getAttribute('href'))
+    console.log(复制主题元素)
 }
+
 Vue.prototype.$以开头标记请求思源代码块数组=async function(字符串){
     let that = this
     let sql =  `select * from blocks where type = "c" and content like "${字符串}%"`
@@ -85,7 +94,7 @@ Vue.prototype.$通过条件数组构建sql字符串=function(查询条件数组,
     for (i=0;i<查询条件数组.length;i++){
         let 查询条件= 查询条件数组[i]
         if (i<查询条件数组.length-1){
-            最终字符串 =" "+ 最终字符串 + 查询条件 + " "+连接谓词
+            最终字符串 =" "+ 最终字符串 + 查询条件 + " "+连接谓词+" "
         }
         else{最终字符串=" "+ 最终字符串 + 查询条件 + " "}
     }
@@ -218,7 +227,17 @@ Vue.prototype.$以id获取块内容=async function (id) {
     let 当前文档id = 挂件自身属性["root_id"];
     let 外部id数组 = [数据源id, 当前文档id];
     let 块内容 = await this.$以id获取块内容(外部id数组, id);
-    console.log(块内容["blocks"][0]);
+  }
+  Vue.prototype.$解析思源ial=function(ial){
+    let ial对象 = {};
+    if (ial) {
+      console.log(ial);
+
+      ial = ial.replace(/" /g, '","').replace("{: ", '{"').replace(/="/g, '":"');
+      console.log(ial);
+      ial对象 = JSON.parse(ial);
+    }
+    return ial对象
   }
 
   Vue.prototype.$主界面=window.parent.document

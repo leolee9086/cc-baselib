@@ -155,7 +155,7 @@ module.exports = {
       let that = this;
       if (链接id) {
         that.链接锚文本 = await 获取思源块链接锚文本(
-          that.思源伺服ip,
+          that.思源伺服ip || window.location.host,
           that.apitoken,
           链接id
         );

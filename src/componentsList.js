@@ -20,5 +20,9 @@ const componentsList = {
     "cc-image-card":`url:${baseLibPath}/components/cc-image-card.vue`,
     "cc-vditor-vue":`url:${baseLibPath}/components/cc-vditor-vue.vue`,    
 }
+
 Vue.use(httpVueLoader);
 
+for (component in componentsList){
+    Vue.component(component,componentsList[component])
+}

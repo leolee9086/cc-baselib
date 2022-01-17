@@ -217,6 +217,21 @@ async function 以id获取文档内容(思源伺服ip,apitoken,id){
     let url = 'http://'+思源伺服ip+'/api/filetree/getDoc'
     return 向思源请求数据(url,apitoken,data)
 }
+async function 以id获取文档聚焦内容(思源伺服ip,apitoken,id){
+    let data ={
+        "id":id,
+        "k":"",
+        "mode":0,
+        "size":36,
+    }
+    let url = 'http://'+思源伺服ip+'/api/filetree/getDoc'
+    return 向思源请求数据(url,apitoken,data)
+}
+async function 获取标签列表(思源伺服ip,apitoken){
+    let data  = {}
+    let url = 'http://'+思源伺服ip+'/api/tag/getTag'
+    return 向思源请求数据(url,apitoken,data)
+}
 async function 以id获取局部图谱(思源伺服ip,apitoken,k,id,conf,reqId){
     let data ={
         "id":id,
@@ -242,6 +257,13 @@ async function 以关键词搜索文档(思源伺服ip,apitoken,k){
         "k":k,
     }
     let url = 'http://'+思源伺服ip+'/api/filetree/searchDocs'
+    return 向思源请求数据(url,apitoken,data)
+}
+async function 以关键词搜索块(思源伺服ip,apitoken,query){
+    let data ={
+        "query":query,
+    }
+    let url = 'http://'+思源伺服ip+'/api/search/searchBlock'
     return 向思源请求数据(url,apitoken,data)
 }
 async function 以关键词搜索模板(思源伺服ip,apitoken,k){
@@ -277,4 +299,7 @@ async function 渲染模板(思源伺服ip,apitoken,data){
     let url = 'http://'+思源伺服ip+'/api/template/render'
     return 向思源请求数据(url,apitoken,data)
 }
-
+async function 插入前置子块(思源伺服ip,apitoken,data){
+    let url = 'http://'+思源伺服ip+'/api/block/prependBlock'
+    return 向思源请求数据(url,apitoken,data)
+}

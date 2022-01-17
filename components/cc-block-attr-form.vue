@@ -140,15 +140,40 @@
         v-if="当前块属性.type != 'd' && 当前块属性.type != 'doc'"
       >
         <div slot="label">样式</div>
-        <el-input
-          v-model="当前块属性.style"
-          @change="设定块属性('style', 当前块属性.style)"
-          @input="设定块属性('style', 当前块属性.style)"
-          size="mini"
-          autosize
-          type="textarea"
-        >
-        </el-input>
+        <el-row>
+          <el-col :span="18">
+            <el-input
+              v-model="当前块属性.style"
+              @change="设定块属性('style', 当前块属性.style)"
+              @input="设定块属性('style', 当前块属性.style)"
+              size="mini"
+              autosize
+              type="textarea"
+            >
+            </el-input>
+          </el-col>
+          <el-col :span="6">
+            <el-select
+              v-model="当前块属性.style"
+              @focus="获取笔记内css()"
+              @change="设定块属性('style', 当前块属性.style)"
+            >
+              <el-option
+                v-for="(item, i) in 笔记内样式数组"
+                :label="item.name || item.id"
+                :value="item.content"
+              >
+                <cc-link-siyuan
+                  :锚文本="item.name || item.id"
+                  :链接id="item.id"
+                ></cc-link-siyuan>
+              </el-option>
+            </el-select>
+          </el-col>
+        </el-row>
+        <span>
+          样式定义<strong>不会</strong>自动覆盖块样式 修改样式定义之后需要重新选择才会覆盖
+        </span>
       </el-form-item>
     </el-form>
 
@@ -194,6 +219,8 @@ module.exports = {
       表单新属性模板: this.新属性模板,
       块被引用数: "",
       当前块内容对象: {},
+      样式缓存数组: [],
+      笔记内样式数组: [],
     };
   },
 
@@ -211,6 +238,35 @@ module.exports = {
     },
   },
   methods: {
+    通过sql获取数据: async function (sql语句, 目标数据名) {
+      let that = this;
+      let jsondatas = { stmt: sql语句 };
+      await axios({
+        method: "POST",
+        url: "http://" + that.思源伺服ip + "/api/query/sql",
+        headers: { Authorization: "Token " + that.apitoken },
+        data: jsondatas,
+      }).then((result) => {
+        that[目标数据名] = result.data["data"];
+        if (that[目标数据名] != null) {
+          that[目标数据名].forEach((item) => (item["flag"] = true));
+        }
+        //   console.log(that[目标数据名])
+      });
+    },
+    获取笔记内css: async function () {
+      this.笔记内样式数组 = [];
+      let that = this;
+      let sql语句 =
+        'select * from blocks where type = "c" and content like "/*预定义样式*/%"';
+      await that.通过sql获取数据(sql语句, "样式缓存数组");
+      that.样式缓存数组.forEach(
+        (el) => (el.content = el.content.replace("/*预定义样式*/", ""))
+      );
+      that.笔记内样式数组 = that.笔记内样式数组.concat(that.样式缓存数组);
+
+      //   console.log(that.笔记内主题片段数组)
+    },
     设定新属性: async function (新属性) {
       let that = this;
       //  console.log(新属性)

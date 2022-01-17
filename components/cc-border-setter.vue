@@ -144,7 +144,7 @@
                                 v-model="当前样式对象[当前属性名]"
                                 :自定义颜色数组="自定义颜色数组"
                                 ></cc-color-pane>
-                        <el-popover>
+                        </el-popover>
                     </el-col>
                 </el-row>
                 <cc-cssimage
