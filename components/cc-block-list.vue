@@ -1,24 +1,37 @@
 <template>
   <div>
-    <h5 style="margin: 0px" v-if="title">
+    <div v-if="title">
+    <span >
+      <el-tooltip effect="dark" v-if="展开" content="收起" placement="top-start">
+        <span class="el-icon-arrow-up" @click="展开 = 展开 ? false : true"></span>
+      </el-tooltip>
+      <el-tooltip effect="dark" v-if="!展开" content="展开" placement="top-start">
+        <span class="el-icon-arrow-down" @click="展开 = 展开 ? false : true"></span>
+      </el-tooltip>
+    </span>
+    <strong style="margin: 0px">
       {{ title }}:
       <span v-if="blocklist">{{ count || blocklist.length }}</span>
-    </h5>
+    </strong>
+    </div>
     <div v-if="展开" style="margin: 5px 0px" v-for="item in 对象列表" :key="item.id">
-       <el-tooltip effect="dark" v-if="可见性列表[item.id]" content="收起" placement="top-start">
-        <span class="el-icon-arrow-up" @click="可见性列表[item.id] = 可见性列表[item.id]?false:true"></span>
+      <el-tooltip effect="dark" v-if="可见性列表[item.id]" content="收起" placement="top-start">
+        <span class="el-icon-arrow-up" @click="可见性列表[item.id] = 可见性列表[item.id] ? false : true"></span>
       </el-tooltip>
       <el-tooltip effect="dark" v-if="!可见性列表[item.id]" content="展开" placement="top-start">
-        <span class="el-icon-arrow-down" @click="可见性列表[item.id] =可见性列表[item.id]?false:true"></span>
+        <span class="el-icon-arrow-down" @click="可见性列表[item.id] = 可见性列表[item.id] ? false : true"></span>
       </el-tooltip>
-      <svg @click="clickcallback(item.id)" :aria-label="buttontip" class="b3-list-item__graphic popover__block" :data-id="item.id">
+      <svg
+        @click="clickcallback(item.id)"
+        :aria-label="buttontip"
+        class="b3-list-item__graphic popover__block"
+        :data-id="item.id"
+      >
         <use :xlink:href="生成图标属性(item)" />
       </svg>
-              
 
-      <cc-link-siyuan :链接id="item.id" :锚文本="item.name||item.content"></cc-link-siyuan>
-      
-     
+      <cc-link-siyuan :链接id="item.id" :锚文本="item.name || item.content"></cc-link-siyuan>
+
       <div
         style="
           font-size: x-small;
@@ -30,30 +43,45 @@
         v-for="block in item.blocks"
         v-if="可见性列表[item.id]"
       >
-      <el-tooltip effect="dark" v-if="block&&!可见性列表[block.id]&&block.content.length>23" content="展开" placement="top-start">
-          <span class="el-icon-arrow-up" @click="可见性列表[block.id] =可见性列表[block.id]?false:true"></span>
+        <el-tooltip
+          effect="dark"
+          v-if="block && !可见性列表[block.id] && block.content.length > 23"
+          content="展开"
+          placement="top-start"
+        >
+          <span class="el-icon-arrow-up" @click="可见性列表[block.id] = 可见性列表[block.id] ? false : true"></span>
         </el-tooltip>
-        <el-tooltip effect="dark" v-if="block&&可见性列表[block.id]&&block.content.length>23" content="收起" placement="top-start">
-          <span class="el-icon-arrow-down" @click="可见性列表[block.id] =可见性列表[block.id]?false:true"></span>
+        <el-tooltip
+          effect="dark"
+          v-if="block && 可见性列表[block.id] && block.content.length > 23"
+          content="收起"
+          placement="top-start"
+        >
+          <span class="el-icon-arrow-down" @click="可见性列表[block.id] = 可见性列表[block.id] ? false : true"></span>
         </el-tooltip>
-        <svg @click="clickcallback(block.id)" :aria-label="buttontip" class="b3-list-item__graphic popover__block" :data-id="block.id">
+        <svg
+          @click="clickcallback(block.id)"
+          :aria-label="buttontip"
+          class="b3-list-item__graphic popover__block"
+          :data-id="block.id"
+        >
           <use :xlink:href="生成图标属性(block)" />
         </svg>
 
-        
-        <cc-link-siyuan :链接id="block.id" v-if="!可见性列表[block.id]" :锚文本="block.name||block.content.slice(0, 23)"></cc-link-siyuan>
-        <cc-link-siyuan :链接id="block.id" v-if="可见性列表[block.id]" :锚文本="block.name||block.content"></cc-link-siyuan>
+        <cc-link-siyuan
+          :链接id="block.id"
+          v-if="!可见性列表[block.id]"
+          :锚文本="block.name || block.content.slice(0, 23)"
+        ></cc-link-siyuan>
+        <cc-link-siyuan :链接id="block.id" v-if="可见性列表[block.id]" :锚文本="block.name || block.content"></cc-link-siyuan>
 
-        <cc-block-list 
-        :blocklist="block.children||[]" 
-        v-if="可见性列表[block.id]"
-        :buttonicon="buttonicon"
-        :clickcallback="clickcallback"
-        :buttontip="buttontip"
-        >
-       
-        </cc-block-list>
-
+        <cc-block-list
+          :blocklist="block.children || []"
+          v-if="可见性列表[block.id]"
+          :buttonicon="buttonicon"
+          :clickcallback="clickcallback"
+          :buttontip="buttontip"
+        ></cc-block-list>
       </div>
       <div
         style="
@@ -64,13 +92,13 @@
           text-overflow: ellipsis;
         "
       >
-       <cc-block-list 
-       :blocklist="item.children||[]" 
-       v-if="item.children&&可见性列表[item.id]"
-        :buttonicon="buttonicon"
-        :clickcallback="clickcallback"
-        :buttontip="buttontip"
-       ></cc-block-list>
+        <cc-block-list
+          :blocklist="item.children || []"
+          v-if="item.children && 可见性列表[item.id]"
+          :buttonicon="buttonicon"
+          :clickcallback="clickcallback"
+          :buttontip="buttontip"
+        ></cc-block-list>
       </div>
     </div>
   </div>
@@ -78,17 +106,17 @@
 <script>
 module.exports = {
   name: "cc-block-list",
-  props: ["blocklist", "title", "count","buttonicon","clickcallback","buttontip"],
+  props: ["blocklist", "title", "count", "buttonicon", "clickcallback", "buttontip"],
   components: componentsList,
   data() {
     return {
-      可见性列表:{},
-      对象列表:[],
+      可见性列表: {},
+      对象列表: [],
       展开: true,
       反链图标对照: {
         "NodeDocument": "#iconFile",
         "NodeParagraph": "#iconParagraph",
-        "NodeListItem":"#iconListItem",
+        "NodeListItem": "#iconListItem",
         "NodeH1": "#iconH1",
         "NodeH2": "#iconH2",
         "NodeH3": "#iconH3",
@@ -96,11 +124,11 @@ module.exports = {
         "NodeH5": "#iconH5",
         "NodeH6": "#iconH6",
         "NodeTable": "#iconTable",
-        "NodeSql":"#iconSQL",
-        "NodeEmbed":"#iconEmbed",
-        "NodeMath":"#iconMath",
-        "NodeCode":"#iconCode",
-        "NodeBlockquote":"#iconQuote"
+        "NodeSql": "#iconSQL",
+        "NodeEmbed": "#iconEmbed",
+        "NodeMath": "#iconMath",
+        "NodeCode": "#iconCode",
+        "NodeBlockquote": "#iconQuote"
       },
       块子类型图标对照: {
         "h1": "#iconH1",
@@ -110,55 +138,55 @@ module.exports = {
         "h5": "#iconH5",
         "h6": "#iconH6",
         "p": "#iconParagraph",
-        
+
       },
       块类型图标对照: {
         "p": "#iconParagraph",
         "d": "#iconFile",
         "u": "#iconListItem",
-        "t":"#iconUncheck"
+        "t": "#iconUncheck"
       }
     };
   },
-  mounted(){
+  mounted() {
     this.对象列表 = this.blocklist
-  
+
   },
-  watch:{
-    blocklist:{
-      handler :function(val,oldval){
-        this.对象列表=val||[]
-        if(this.对象列表[0]){
+  watch: {
+    blocklist: {
+      handler: function (val, oldval) {
+        this.对象列表 = val || []
+        if (this.对象列表[0]) {
           this.对象列表.forEach(
-          item=>{
-          if(item.blocks){
-            this.可见性列表[item.id]=true
-            item.blocks.forEach(
-            block=>this.可见性列表[block.id]=true
-              )
+            item => {
+              if (item.blocks) {
+                this.可见性列表[item.id] = true
+                item.blocks.forEach(
+                  block => this.可见性列表[block.id] = true
+                )
+              }
+              if (item.children) {
+                this.可见性列表[item.id] = true
+                item.children.forEach(
+                  block => this.可见性列表[block.id] = true
+                )
+              }
             }
-          if(item.children){
-            this.可见性列表[item.id]=true
-            item.children.forEach(
-            block=>this.可见性列表[block.id]=true
-              )
-            }
-          }
-        )
-        this.可见性列表=JSON.parse(JSON.stringify(this.可见性列表))
-        console.log(this.可见性列表)
+          )
+          this.可见性列表 = JSON.parse(JSON.stringify(this.可见性列表))
+          console.log(this.可见性列表)
         }
       },
-      deep:true,
-      immediate:true
+      deep: true,
+      immediate: true
     }
   },
   methods: {
-    展开切换(block){
-      let temp =JSON.parse(JSON.stringify(block))
-      temp.展开=block.展开?false:true
-        
-        block=JSON.parse(JSON.stringify(temp))
+    展开切换(block) {
+      let temp = JSON.parse(JSON.stringify(block))
+      temp.展开 = block.展开 ? false : true
+
+      block = JSON.parse(JSON.stringify(temp))
     },
     生成图标属性(item) {
       if (item.nodeType) {
@@ -181,7 +209,7 @@ module.exports = {
 div {
   max-height: auto !important;
 }
-.b3-list-item__graphic{
-  color:black !important;
+.b3-list-item__graphic {
+  color: black !important;
 }
 </style>
