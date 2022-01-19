@@ -4,7 +4,7 @@
     v-on:mouseover="打开浮窗($event)"
     v-on:mouseout="鼠标在链接内 = false"
   >
-    <span class="link" @click="窗口内打开(链接id)">{{ 锚文本 || 链接锚文本 }}</span>
+    <span class="link" @click="窗口内打开(链接id)">{{ 最大文字长度?锚文本.slice(0,最大文字长度):锚文本 || 最大文字长度?链接锚文本.slice(0,最大文字长度):链接锚文本 }}</span>
   </span>
 </template>
 <script>
@@ -14,7 +14,7 @@ module.exports = {
     that.解析思源块链接(that.链接id);
     setInterval(that.移动浮窗, 5);
   },
-  props: ["链接id", "锚文本"],
+  props: ["链接id", "锚文本","最大文字长度"],
   data() {
     return {
       链接锚文本: "等待获取",
