@@ -45,6 +45,7 @@
         props:["思源伺服ip","apitoken","自定义颜色数组","value","显示web命名颜色"],
         model:{event:"change",prop:"value"},
         mounted(){
+            this.自定义颜色=this.自定义颜色数组
         },
         data(){
             return{
@@ -57,6 +58,11 @@
             }
         },
         watch:{
+            自定义颜色数组:{handler(val){
+                this.自定义颜色=val
+            },
+            deep:true
+            },
             自定义颜色(){
               //  console.log(this.自定义颜色)
                 this.$emit('append',this.自定义颜色)
