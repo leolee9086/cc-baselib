@@ -55,8 +55,11 @@
             }
         },
         methods:{
-            保存缓存内容:async function (value){
+            保存缓存内容: function (value){
                 this.$emit("change",value)
+                this.生成html(value)
+            },
+            生成html:async function(value){
                 let html = await Vditor.md2html(value)
                 this.$emit("htmlChange",html)
                 console.log(html)

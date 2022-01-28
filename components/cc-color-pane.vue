@@ -26,9 +26,11 @@
             
             <el-row :gutter="20" >
                 <el-col :span="1" v-for="item in 自定义颜色" >
-                    <div class="colortemp" @click="最终颜色值=item" :style="`height:15px;width:15px;border:solid 1px black;background-color:${item};`"></div>
+                        <div  class="colortemp" @click="最终颜色值=item" :style="`height:15px;width:15px;border:solid 1px black;background-color:${item};`"></div>
+
                 </el-col>
                  <el-col :span="1"  >
+                    
                      <el-color-picker 
                         show-alpha 
                         @change="自定义颜色.push($event);最终颜色值=$event" 
@@ -70,7 +72,6 @@
             最终颜色值(){
             //    console.log(this.最终颜色值)
                 this.$emit('change',this.最终颜色值)
-
             },
         },
         methods: {
