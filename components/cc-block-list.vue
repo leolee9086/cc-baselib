@@ -1,5 +1,5 @@
 <template>
-  <div v-if="blocklist[0]" class="protyle-wysiwyg protyle-wysiwyg--attr">
+  <div v-if="blocklist&&blocklist[0]" class="protyle-wysiwyg protyle-wysiwyg--attr">
     <el-divider v-if="title"></el-divider>
     <div v-if="title">
       <h3 style="margin: 0px">
@@ -194,6 +194,7 @@ module.exports = {
   watch: {
     blocklist: {
       handler: function (val, oldval) {
+        if (!val){return null}
         this.对象列表 = val || [];
         let 可见性列表 = {};
         if (this.对象列表[0]) {
