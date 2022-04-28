@@ -18,9 +18,8 @@ async function 以sql向思源请求块数据(思源伺服ip,apitoken,sql语句)
 }
 
 async function 向思源请求笔记本列表(思源伺服ip,apitoken){
-    let sqldata =  {"stmt": sql语句}  
     let url = 'http://'+思源伺服ip+'/api/notebook/lsNotebooks'
-    let 返回信息 = await 向思源请求数据(url,apitoken,sqldata)
+    let 返回信息 = await 向思源请求数据(url,apitoken)
     let 返回数据 =  返回信息["data"]
     return 返回数据
 }
@@ -302,4 +301,37 @@ async function 渲染模板(思源伺服ip,apitoken,data){
 async function 插入前置子块(思源伺服ip,apitoken,data){
     let url = 'http://'+思源伺服ip+'/api/block/prependBlock'
     return 向思源请求数据(url,apitoken,data)
+}
+async function 生成文档树(思源伺服ip,apitoken){
+    let sql = 'select * from blocks where type ="d"'
+    let 全文档数据 =  await 以sql向思源请求块数据(思源伺服ip,apitoken,sql)
+    全文档数据.forEach(
+        block=>{
+        block.pathArray=block.path.split("/")
+        block.pathArray=block.pathArray.slice(1,block.pathArray.length-1)
+       
+    }
+    )
+    全文档数据.forEach(
+        block=>{
+            block.children= 全文档数据.filter(
+                function(child){return child.pathArray[child.pathArray.length-1]===block.id}
+            )
+        }
+    )
+   
+    console.log(全文档数据)
+    let 笔记本列表 =  await 向思源请求笔记本列表(思源伺服ip,apitoken)
+    笔记本列表=  笔记本列表.notebooks
+    for( i in 笔记本列表){
+        let box = 笔记本列表[i]
+        box.children = 全文档数据.filter(
+            function(block){
+                return block.box === box.id&&block.pathArray.length==1
+            }
+        )
+    };
+    笔记本列表 = JSON.parse(JSON.stringify(笔记本列表))
+    console.log(笔记本列表)
+    return 笔记本列表
 }
