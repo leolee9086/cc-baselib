@@ -41,7 +41,13 @@ async function 获取思源块链接锚文本(思源伺服ip,apitokn,链接源�
  //   console.log("锚文本",anchor)
     return anchor
 }
-
+async function 获取思源配置(思源伺服ip,apitoken){
+    let data ={
+      
+    }
+    let url = 'http://'+思源伺服ip+'/api/system/getConf'
+    return 向思源请求数据(url,apitoken,data)
+}
 async function 打开思源笔记本(思源伺服ip,apitokn,笔记本id){
     let data = {"notebook":笔记本id}
     let url = 'http://'+思源伺服ip+'/api/notebook/openNotebook'
