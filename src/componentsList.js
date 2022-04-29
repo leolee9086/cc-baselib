@@ -1,5 +1,4 @@
-const baseLibPath = "../../cc-baselib/"
-
+const baseLibPath = Vue.prototype.baseLibPath
 const componentsList = {
     "cc-csscons-font":`url:${baseLibPath}/components/cc-csscons-font.vue`,
     "cc-color-pane":`url:${baseLibPath}/components/cc-color-pane.vue`,
