@@ -1,6 +1,5 @@
 <template>
   <div v-if="blocklist&&blocklist[0]" class="protyle-wysiwyg protyle-wysiwyg--attr">
-    <el-divider v-if="title"></el-divider>
     <div v-if="title">
       <h3 style="margin: 0px">
         <span>
