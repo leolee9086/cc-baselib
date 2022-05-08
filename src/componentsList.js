@@ -18,6 +18,7 @@ const componentsList = {
     "cc-block-list":`url:${baseLibPath}/components/cc-block-list.vue`,
     "cc-image-card":`url:${baseLibPath}/components/cc-image-card.vue`,
     "cc-vditor-vue":`url:${baseLibPath}/components/cc-vditor-vue.vue`,    
+    "cc-loader-file":`url:${baseLibPath}/components/cc-loader-file.vue`,    
 }
 
 Vue.use(httpVueLoader);
