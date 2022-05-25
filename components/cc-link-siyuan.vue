@@ -134,10 +134,10 @@ module.exports = {
           0,
           null
         );
+        虚拟链接.dispatchEvent(点击事件);
         setTimeout(() => {
-          虚拟链接.dispatchEvent(点击事件);
           虚拟链接.remove();
-        }, 300);
+        }, 1000);
       }
     },
     窗口内打开: function (id) {
